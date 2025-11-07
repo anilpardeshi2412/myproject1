@@ -33,9 +33,10 @@ pipeline {
 				}
 	    stage ('slave-1'){
 						 agent {
-							lable {
-									lable "slave-1"
-							}						 
+							label {
+									label "slave-1"
+									
+							    }						 
 						 }		
 				steps {
 						sh '''
