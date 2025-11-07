@@ -33,7 +33,7 @@ label {
 		
 				steps {
 						
-						aws s3 cp /mnt/project-myapp/target/LoginWebApp.war s3://jenkinspipelines3slave1/
+						aws s3 cp /mnt/project-myapp/target/LoginWebApp.war s3://jenkinspipelines314/
 
 						}
 				
@@ -52,7 +52,7 @@ label {
         success { 
 		
             sh '''
-			aws s3 cp s3://jenkinspipelines3slave1/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.48/webapps/
+			aws s3 cp s3://jenkinspipelines314/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.48/webapps/
 			
 			'''
         }
