@@ -26,7 +26,7 @@ pipeline {
 				steps {
 						sh '''
 						
-						aws s3 mb s3://jenkinspipelines3/
+						
 						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
 							'''
 						}				
