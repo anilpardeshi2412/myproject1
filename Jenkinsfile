@@ -31,7 +31,7 @@ pipeline {
 				}
 	    stage ('slave-1'){
 						 agent {
-							lable{
+							lable {
 									label "slave-1"
 							}						 
 						 }		
