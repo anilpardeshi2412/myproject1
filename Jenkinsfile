@@ -24,16 +24,15 @@ pipeline {
 		stage ('COPY_WAR_TO_S3'){
 		
 				steps {
-					sh '''
-					
+						aws s3 mb s3://jenkinspipelines3/
 						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
-						'''
+
 						}				
 				}
 	    stage ('slave-1'){
 						 agent {
 							lable{
-									Label "slave-1"
+									label "slave-1"
 							}						 
 						 }		
 				steps {
