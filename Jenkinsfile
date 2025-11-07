@@ -1,61 +1,45 @@
 pipeline {
-agent {
-label {
-		label "built-in"
-		customWorkspace "/mnt/project-myapp"
-		
-		}
-		}
-		
+			agent {
+					label {
+								label "built-in"
+								customWorkspace "/mnt/project1"
+							}
+				}		
 	stages {
 		
 		stage ('CLEAN_OLD_M2') {
 			
 			steps {
-				sh "rm -rf /root/.m2/repository"
-				
-			}
-			
-		}
-	
+				sh "rm -rf /root/.m2/repository"				
+			}			
+		}	
 		stage ('MAVEN_BUILD') {
 		
 			steps {
 						
-						sh "mvn clean package"
-			
-			}
-			
-		
+						sh "mvn clean package"			
+			}		
 		}
 		
 		stage ('COPY_WAR_TO_S3'){
 		
 				steps {
 						
-						aws s3 cp /mnt/project-myapp/target/LoginWebApp.war s3://jenkinspipelines314/
+						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
 
-						}
-				
+						}				
 				}
-	
-	
-	
-	}
-	post { 
-	       agent {
-				label {
-						label "slave-1"					
-		
-		              }
-		         }
-        success { 
-		
-            sh '''
-			aws s3 cp s3://jenkinspipelines314/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.48/webapps/
-			
-			'''
-        }
-    }
-		
+	    stage ('slave-1'){
+						 agent {
+							lable{
+									Label "slave-1"
+							}						 
+						 }		
+				steps {
+						
+						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
+
+						}				
+				}	
+	}		
 }
