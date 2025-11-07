@@ -24,9 +24,10 @@ pipeline {
 		stage ('COPY_WAR_TO_S3'){
 		
 				steps {
-						aws s3 mb s3://jenkinspipelines3
+					sh '''
+					
 						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
-
+						'''
 						}				
 				}
 	    stage ('slave-1'){
@@ -36,9 +37,9 @@ pipeline {
 							}						 
 						 }		
 				steps {
-						
+						sh '''
 						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
-
+						'''
 						}				
 				}	
 	}		
