@@ -32,7 +32,7 @@ pipeline {
 						}				
 				}
 	    }	
-	}
+	
 post { 
         success { 
            build "s3_s1_deploy"
