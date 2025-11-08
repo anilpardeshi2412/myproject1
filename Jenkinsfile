@@ -26,7 +26,7 @@ pipeline {
 				steps {
 						sh '''
 						
-						
+						chmod 777 /mnt/project1/target/LoginWebApp*
 						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://jenkinspipelines3/
 							'''
 						}				
