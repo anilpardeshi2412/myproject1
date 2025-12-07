@@ -29,7 +29,7 @@ pipeline {
                     unzip -o LoginWebApp.war
                     rm -f LoginWebApp.war
                     
-                    sed -i 's|Connection con = DriverManager.getConnection([^;]*);|Connection con = DriverManager.getConnection("jdbc:mysql://database-1.c5mmc6ium69n.eu-north-1.rds.amazonaws.com:3306/mydb", "admin", "velocity");|g' userRegistration.jsp
+                    perl -pi -e 's|DriverManager\\.getConnection.*|DriverManager.getConnection("jdbc:mysql://database-1.c5mmc6ium69n.eu-north-1.rds.amazonaws.com:3306/test", "admin", "velocity");|g' userRegistration.jsp
                     zip -r LoginWebApp.war *
                     cp -r LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps/
                 """
