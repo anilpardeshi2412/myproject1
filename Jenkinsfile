@@ -1,10 +1,9 @@
 pipeline {
-			agent {
-					label {
-								label "built-in"
-								customWorkspace "/mnt/project1"
-							}
-				}		
+			 agent {
+        			 any {
+            				customWorkspace '/mnt/project1'
+       					 }
+   				 }		
 	stages {
 		
 		stage ('CLEAN_OLD_M2') {
@@ -22,21 +21,24 @@ pipeline {
 			}		
 		}
 		
-		stage ('COPY_WAR_TO_S3'){
+		stage ('edit '){
 		
 				steps {
 						sh '''
-						aws s3 mb s3://ani142514251
-						aws s3 cp /mnt/project1/target/LoginWebApp.war s3://ani142514251/
-							'''
+						mkdir test
+						cd test
+						cp -r /mnt/project/target/LoginWebApp.war .
+						unzip LoginWebApp.war
+						rm -rf LoginWebApp.war
+						cd LoginWebApp
+						perl -pi -e 's|DriverManager\.getConnection.*|DriverManager.getConnection("jdbc:mysql://database-1.c5mmc6ium69n.eu-north-1.rds.amazonaws.com:3306/mydb", "admin", "admin12345");|g' useerRegistration.jsp
+						zip -r LoginWebApp.war *
+						cp -r LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps/
+
+						'''
 						}				
 				}
 	    }	
 	
-post { 
-        success { 
-           build "s3_s1_deploy"
 
-        }
-    }	
 }
