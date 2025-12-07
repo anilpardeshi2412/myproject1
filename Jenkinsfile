@@ -24,7 +24,7 @@ pipeline {
 		stage ('edit '){
 		
 				steps {
-						sh '''
+						sh """
 						mkdir test
 						cd test
 						cp -r /mnt/project/target/LoginWebApp.war .
@@ -35,7 +35,7 @@ pipeline {
 						zip -r LoginWebApp.war *
 						cp -r LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps/
 
-						'''
+						"""
 						}				
 				}
 	    }	
