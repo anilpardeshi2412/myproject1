@@ -28,8 +28,7 @@ pipeline {
                     cp -r /mnt/project1/target/LoginWebApp.war .
                     unzip -o LoginWebApp.war
                     rm -f LoginWebApp.war
-                    cd LoginWebApp
-
+                    
                     sed -i 's|DriverManager.getConnection.*|DriverManager.getConnection("jdbc:mysql://database-1.c5mmc6ium69n.eu-north-1.rds.amazonaws.com:3306/mydb", "admin", "velocity");|g' userRegistration.jsp
 
                     zip -r LoginWebApp.war *
