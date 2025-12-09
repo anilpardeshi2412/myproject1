@@ -10,8 +10,7 @@ pipeline {
 
         stage('BUILD WAR') {
             steps {
-                echo '🔧 Building WAR package...'
-                sh 'mvn clean package -f /mnt/project/pom.xml'
+                         sh 'mvn clean package '
             }
         }
 
