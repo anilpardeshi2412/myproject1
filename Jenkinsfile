@@ -7,16 +7,16 @@ pipeline {
     }
 
     stages {
-
         stage('BUILD WAR') {
             steps {
-                         sh 'mvn clean package '
+                echo 'Building WAR file...'
+                sh 'mvn clean package -f /mnt/project/pom.xml'
             }
         }
 
         stage('DEPLOY DOCKER COMPOSE') {
             steps {
-                echo '🚀 Deploying Docker containers...'
+                echo 'Deploying with Docker Compose...'
                 sh '''
                     cd /mnt/project
                     docker-compose down || true
@@ -24,53 +24,12 @@ pipeline {
                 '''
             }
         }
-
-        stage('WAIT FOR MYSQL INIT') {
-            steps {
-                echo '⏳ Waiting for MySQL initialization...'
-                script {
-                    def maxRetries = 15
-                    def retryCount = 0
-                    def mysqlReady = false
-
-                    while (retryCount < maxRetries) {
-                        def status = sh(
-                            script: "docker exec mysql_container mysqladmin ping -h localhost -uadmin -pmysecurepassword --silent",
-                            returnStatus: true
-                        )
-
-                        if (status == 0) {
-                            echo "✅ MySQL is ready!"
-                            mysqlReady = true
-                            break
-                        } else {
-                            echo "🕒 MySQL not ready yet... waiting 5s (Attempt ${retryCount + 1}/${maxRetries})"
-                            sleep(time: 5, unit: 'SECONDS')
-                            retryCount++
-                        }
-                    }
-
-                    if (!mysqlReady) {
-                        error("❌ MySQL did not initialize in time.")
-                    }
-                }
-            }
-        }
-
-        stage('VERIFY DEPLOYMENT') {
-            steps {
-                echo '🔍 Checking running containers...'
-                sh 'docker ps'
-            }
-        }
     }
 
     post {
-        success {
-            echo '✅ Deployment completed successfully!'
-        }
-        failure {
-            echo '❌ Deployment failed. Check logs above.'
+        always {
+            echo 'Listing running containers...'
+            sh 'docker ps'
         }
     }
 }
