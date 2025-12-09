@@ -1,0 +1,39 @@
+version: '3.9'
+
+networks:
+  my_bridge_network:
+    driver: bridge
+
+services:
+  tomcat:
+    image: tomcat:10-jdk17
+    container_name: tomcat_container
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/project/target/LoginWebApp.war:/usr/local/tomcat/webapps/LoginWebApp.war
+    environment:
+      - DB_HOST=mysql_container
+      - DB_PORT=3306
+      - DB_NAME=login_db
+      - DB_USER=admin
+      - DB_PASSWORD=mysecurepassword
+    depends_on:
+      - mysql
+    networks:
+      - my_bridge_network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: login_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: mysecurepassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - /mnt/project/initdb:/docker-entrypoint-initdb.d
+    networks:
+      - my_bridge_network
