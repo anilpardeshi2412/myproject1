@@ -1,0 +1,10 @@
+<Resource name="jdbc/LoginDB"
+          auth="Container"
+          type="javax.sql.DataSource"
+          maxTotal="100"
+          maxIdle="30"
+          maxWaitMillis="10000"
+          username="${DB_USER}"
+          password="${DB_PASSWORD}"
+          driverClassName="com.mysql.cj.jdbc.Driver"
+          url="jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true"/>
